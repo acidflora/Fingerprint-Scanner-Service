@@ -7,12 +7,7 @@ using System.Threading.Tasks;
 
 namespace TestEvents
 {
-    interface IObservable
-    {
-        void RegisterObserver(IObserver o);
-        void RemoveObserver(IObserver o);
-        void NotifyObservers();
-    }
+   
 
     class Database: IObservable //НаблюдаЕМЫЙ объект
     {
@@ -23,6 +18,7 @@ namespace TestEvents
         private string database;
 
         DatabaseInfo dInfo;
+        FingerprintScanner fInfo;
 
         List<IObserver> observers;
 
@@ -35,6 +31,7 @@ namespace TestEvents
                     conn.Open();
                     conn.Notification += (o, e) =>
                     {
+                        NotifyObserversAboutUpdate();
                     };
                         using (var cmd = new NpgsqlCommand("LISTEN virtual;", conn))//Wait "NOTIFY virtual" trigger
                         {
@@ -48,14 +45,14 @@ namespace TestEvents
                 catch
                 {
                     dInfo.Status = false;
-                    NotifyObservers();
+                    NotifyObserversAboutConnection();
                 }
             }
         }
 
         public void RegisterObserver(IObserver o)
         {
-            observers.Add(o);
+            observers.Add(o);//Добавление подписавшихся
         }
 
         public void RemoveObserver(IObserver o)
@@ -63,11 +60,19 @@ namespace TestEvents
             observers.Add(o);
         }
 
-        public void NotifyObservers()
+        public void NotifyObserversAboutConnection()
         {
             foreach (IObserver o in observers)
             {
-                o.Update(dInfo);
+                o.UpdateStatusServer(dInfo);
+            }
+        }
+
+        public void NotifyObserversAboutUpdate()
+        {
+            foreach (IObserver o in observers)
+            {
+                o.UpdateStatusServer(fInfo);
             }
         }
 

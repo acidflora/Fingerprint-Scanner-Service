@@ -6,22 +6,21 @@ using System.Threading.Tasks;
 
 namespace TestEvents
 {
-    interface IObserver
-    {
-        void Update(Object ob);
-    }
-
-
     class Observer : IObserver //НаблюдаЮЩИЙ объект
     {
-
         IObservable database;
         public Observer(IObservable obs)
         {
             database = obs;
-            database.RegisterObserver(this);
+            database.RegisterObserver(this);//Регистрация подписки
         }
-        public void Update(object ob)
+
+        public void UpdateStatusFinger(object ob)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void UpdateStatusServer(object ob)
         {
             DatabaseInfo dInfo = (DatabaseInfo)ob;
             if (!dInfo.Status)

@@ -77,6 +77,9 @@
     <Compile Include="Database.cs" />
     <Compile Include="DatabaseInfo.cs" />
     <Compile Include="FingerprintScanner.cs" />
+    <Compile Include="FingerprintScannerInfo.cs" />
+    <Compile Include="Interfaces\IObservable.cs" />
+    <Compile Include="Interfaces\IObserver.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

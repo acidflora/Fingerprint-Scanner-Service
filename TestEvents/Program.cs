@@ -13,6 +13,7 @@ namespace TestEvents
         {
             Database database = new Database();
             Observer observer = new Observer(database);
+            FingerprintScanner fingerprint = new FingerprintScanner(database);
             database.onDatabaseConnection();
             Console.ReadLine();
         }
