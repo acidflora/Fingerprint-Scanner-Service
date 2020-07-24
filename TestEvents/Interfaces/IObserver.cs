@@ -8,7 +8,7 @@ namespace TestEvents
 {
     interface IObserver
     {
-        void UpdateStatusServer(Object ob);
-        void UpdateStatusFinger(Object ob);
+        void UpdateStatusServer(Object ob);//Части реализации интерфейса
+        void UpdateStatusFinger(Object ob);//Части реализации интерфейса
     }
 }

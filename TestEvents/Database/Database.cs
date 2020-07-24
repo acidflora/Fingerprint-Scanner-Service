@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -19,16 +20,19 @@ namespace TestEvents
 
         DatabaseInfo dInfo;
         FingerprintScanner fInfo;
+        Logger logger = new Logger();
 
-        List<IObserver> observers;
+        List<IObserver> observers;//Список наблюдателей
 
-        public void onDatabaseConnection() //Market()
+        public void onDatabaseConnection() //Проверка NOTIFY из БД и 
         {
             using (var conn = new NpgsqlConnection($"Host={ip};Port={port};Username={username};Password={password};Database={database}"))
             {
                 try
                 {
                     conn.Open();
+                    DatabaseInfo.Status = true; 
+                    logger.CreateLoggerFile("Server connected");
                     conn.Notification += (o, e) =>
                     {
                         NotifyObserversAboutUpdate();
@@ -44,7 +48,11 @@ namespace TestEvents
                 }
                 catch
                 {
-                    dInfo.Status = false;
+                    if (DatabaseInfo.Status)
+                    {
+                        logger.CreateLoggerFile("Server connection lost!");
+                    }
+                    DatabaseInfo.Status = false;
                     NotifyObserversAboutConnection();
                 }
             }
@@ -57,7 +65,7 @@ namespace TestEvents
 
         public void RemoveObserver(IObserver o)
         {
-            observers.Add(o);
+            observers.Add(o);//Удаление подписчиков
         }
 
         public void NotifyObserversAboutConnection()
@@ -65,6 +73,7 @@ namespace TestEvents
             foreach (IObserver o in observers)
             {
                 o.UpdateStatusServer(dInfo);
+                Console.WriteLine(o.GetType().Name);
             }
         }
 
@@ -72,7 +81,7 @@ namespace TestEvents
         {
             foreach (IObserver o in observers)
             {
-                o.UpdateStatusServer(fInfo);
+                o.UpdateStatusFinger(fInfo);
             }
         }
 

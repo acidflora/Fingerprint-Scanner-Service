@@ -8,9 +8,9 @@ namespace TestEvents
 {
     interface IObservable
     {
-        void RegisterObserver(IObserver o);
-        void RemoveObserver(IObserver o);
-        void NotifyObserversAboutConnection();
-        void NotifyObserversAboutUpdate();
+        void RegisterObserver(IObserver o);//Части реализации интерфейса
+        void RemoveObserver(IObserver o);//Части реализации интерфейса
+        void NotifyObserversAboutConnection();//Части реализации интерфейса
+        void NotifyObserversAboutUpdate();//Части реализации интерфейса
     }
 }

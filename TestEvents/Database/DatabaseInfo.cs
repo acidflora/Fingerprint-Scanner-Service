@@ -8,6 +8,6 @@ namespace TestEvents
 {
     class DatabaseInfo
     {
-        public bool Status { get; set; }
+        public static bool Status { get; set; }
     }
 }

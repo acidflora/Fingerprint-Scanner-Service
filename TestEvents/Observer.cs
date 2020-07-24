@@ -3,12 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestEvents.Controllers;
 
 namespace TestEvents
 {
     class Observer : IObserver //НаблюдаЮЩИЙ объект
     {
         IObservable database;
+        Logger logger = new Logger();
+        Controller controller = new Controller();
         public Observer(IObservable obs)
         {
             database = obs;
@@ -17,19 +20,16 @@ namespace TestEvents
 
         public void UpdateStatusFinger(object ob)
         {
-            throw new NotImplementedException();
         }
 
         public void UpdateStatusServer(object ob)
         {
             DatabaseInfo dInfo = (DatabaseInfo)ob;
-            if (!dInfo.Status)
+            if (!DatabaseInfo.Status)
             {
-                Console.WriteLine("Сервер упал!");
-            }
-            else
-            {
-                Console.WriteLine("Сервер стоит!");
+                //Console.WriteLine("Сервер упал!");
+                //logger.CreateLoggerFile("Server connection lost!");
+                controller.Initialization();
             }
         }
 

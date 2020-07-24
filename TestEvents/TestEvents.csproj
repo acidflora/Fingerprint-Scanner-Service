@@ -74,12 +74,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database.cs" />
-    <Compile Include="DatabaseInfo.cs" />
-    <Compile Include="FingerprintScanner.cs" />
-    <Compile Include="FingerprintScannerInfo.cs" />
+    <Compile Include="Configurations\ConfigurationServer.cs" />
+    <Compile Include="Controllers\Controller.cs" />
+    <Compile Include="Database\Database.cs" />
+    <Compile Include="Database\DatabaseInfo.cs" />
+    <Compile Include="Fingerprint\FingerprintScanner.cs" />
+    <Compile Include="Fingerprint\FingerprintScannerInfo.cs" />
     <Compile Include="Interfaces\IObservable.cs" />
     <Compile Include="Interfaces\IObserver.cs" />
+    <Compile Include="Logger.cs" />
     <Compile Include="Observer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -87,6 +90,9 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Configurations\DatabaseServerSetup.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
