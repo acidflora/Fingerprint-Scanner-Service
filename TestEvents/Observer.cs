@@ -10,7 +10,6 @@ namespace TestEvents
     class Observer : IObserver //НаблюдаЮЩИЙ объект
     {
         IObservable database;
-        Logger logger = new Logger();
         Controller controller = new Controller();
         public Observer(IObservable obs)
         {
@@ -26,11 +25,7 @@ namespace TestEvents
         {
             DatabaseInfo dInfo = (DatabaseInfo)ob;
             if (!DatabaseInfo.Status)
-            {
-                //Console.WriteLine("Сервер упал!");
-                //logger.CreateLoggerFile("Server connection lost!");
                 controller.Initialization();
-            }
         }
 
     }

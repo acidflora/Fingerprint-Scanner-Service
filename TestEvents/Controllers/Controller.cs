@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestEvents.Configurations;
 
 namespace TestEvents.Controllers
 {
@@ -10,7 +11,9 @@ namespace TestEvents.Controllers
     {
         public void Initialization()
         {
-            Database database = new Database();
+            ConfigurationServer сonfigurationServer = new ConfigurationServer();
+            List<string> conf = сonfigurationServer.connectionString();
+            Database database = new Database(conf);
             Observer observer = new Observer(database);
             FingerprintScanner fingerprint = new FingerprintScanner(database);
             database.onDatabaseConnection();

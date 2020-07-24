@@ -31,10 +31,13 @@ namespace TestEvents
                 try
                 {
                     conn.Open();
-                    DatabaseInfo.Status = true; 
+                    DatabaseInfo.Status = true;
+                    FingerprintScannerInfo.StatusUpdate = false;
+                    NotifyObserversAboutUpdate();
                     logger.CreateLoggerFile("Server connected");
                     conn.Notification += (o, e) =>
                     {
+                        FingerprintScannerInfo.StatusUpdate = true;
                         NotifyObserversAboutUpdate();
                     };
                         using (var cmd = new NpgsqlCommand("LISTEN virtual;", conn))//Wait "NOTIFY virtual" trigger
@@ -49,9 +52,7 @@ namespace TestEvents
                 catch
                 {
                     if (DatabaseInfo.Status)
-                    {
                         logger.CreateLoggerFile("Server connection lost!");
-                    }
                     DatabaseInfo.Status = false;
                     NotifyObserversAboutConnection();
                 }
@@ -68,12 +69,12 @@ namespace TestEvents
             observers.Add(o);//Удаление подписчиков
         }
 
+
         public void NotifyObserversAboutConnection()
         {
             foreach (IObserver o in observers)
             {
-                o.UpdateStatusServer(dInfo);
-                Console.WriteLine(o.GetType().Name);
+                o.UpdateStatusServer(dInfo);//Оповещение подписчиков о состоянии соединения
             }
         }
 
@@ -81,7 +82,7 @@ namespace TestEvents
         {
             foreach (IObserver o in observers)
             {
-                o.UpdateStatusFinger(fInfo);
+                o.UpdateStatusFinger(fInfo);//Оповещение подписчиков о новом пользователе
             }
         }
 
@@ -91,6 +92,7 @@ namespace TestEvents
             observers = new List<IObserver>();
             dInfo = new DatabaseInfo();
         }
+        public Database(List<string> configuration) { this.ip = configuration[0]; this.port = configuration[1]; this.username = configuration[2]; this.password = configuration[3]; this.database = configuration[4]; }
         public Database(string ip, string port, string username, string password, string database) { this.ip = ip; this.port = port; this.username = username; this.password = password; this.database = database; }
 
     }

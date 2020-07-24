@@ -8,6 +8,6 @@ namespace TestEvents
 {
     class FingerprintScannerInfo
     {
-        public static bool Status { get; set; }
+        public static bool StatusUpdate { get; set; }
     }
 }
